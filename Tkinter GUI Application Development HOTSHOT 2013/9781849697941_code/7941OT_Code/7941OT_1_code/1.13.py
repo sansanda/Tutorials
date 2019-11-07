@@ -7,7 +7,7 @@ A demonstration of:
 @Tkinter GUI Application Development Hotshot
 """ 
 
-from Tkinter import *
+from tkinter import *
 root = Tk()
 
 #demo of some important top-level methods

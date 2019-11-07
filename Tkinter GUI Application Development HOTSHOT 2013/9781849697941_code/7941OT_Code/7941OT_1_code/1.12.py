@@ -8,15 +8,15 @@ IntVar, StringVar & BooleanVar
 
 
 
-from Tkinter import *
+from tkinter import *
 root = Tk()
 
 def show():
-    print "You entered:"
-    print "Employee Number: "+ str(en.get())
-    print "Login Password: "+ pw.get()
-    print "Remember Me: "+ str(rm.get())
-    print '*'*30
+    print ( "You entered:")
+    print ( "Employee Number: "+ str(en.get()))
+    print ( "Login Password: "+ pw.get())
+    print ( "Remember Me: "+ str(rm.get()))
+    print ( '*'*30)
 
 #demo of IntVar
 Label(root, text="Employee Number:").grid(row=1, column=1)

@@ -4,17 +4,18 @@ A demonstration of all Widget Binding
 
 @Tkinter GUI Application Development Hotshot
 """ 
-from Tkinter import *
+from tkinter import *
 
 def show_event_details(event):     
 	event_name = {"2": "KeyPress", "4": "ButtonPress", "6": "Motion", "9":"FocusIn"}
-	print '='*50
-	print "EventName=" + event_name[str(event.type)]
-	print "EventKeySymbol=" + str(event.keysym)
-	print "EventType=" + str(event.type)
-	print "EventWidgetId=" + str(event.widget)
-	print "EventCoordinate (x,y)=(" + str(event.x)+","+str(event.y)+")"
-	print "Time:", str(event.time)
+	print ( '='*50)
+	print(event.type)
+	print ( "EventName=" + str(event.type))
+	print ( "EventKeySymbol=" + str(event.keysym))
+	print ( "EventType=" + str(event.type))
+	print ( "EventWidgetId=" + str(event.widget))
+	print ( "EventCoordinate (x,y)=(" + str(event.x)+","+str(event.y)+")")
+	print ( "Time:", str(event.time))
 
 root = Tk()
 
@@ -25,7 +26,7 @@ myb.bind("<Button-1>", show_event_details)  #bind button to mouse click
 myb.bind("<Return>", show_event_details)#bind button to Enter Key 
 
 
-Label(text="Entry is Bound to Mouseclick \n, FocusIn and Keypress Event").pack()
+Label(root,text="Entry is Bound to Mouseclick \n, FocusIn and Keypress Event").pack()
 mye = Entry(root) #creating entry widget
 mye.pack()
 
