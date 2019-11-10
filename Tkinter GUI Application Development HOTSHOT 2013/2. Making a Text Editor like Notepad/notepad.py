@@ -15,12 +15,13 @@ copyicon = PhotoImage(file='icons/Copy.gif')
 pasteicon = PhotoImage(file='icons/Paste.gif')
 undoicon = PhotoImage(file='icons/Undo.gif')
 redoicon = PhotoImage(file='icons/Redo.gif')
-
+findicon = PhotoImage(file='icons/onfind.gif')
 
 
 #************************************************************************
 #Menu Variables
 #************************************************************************
+
 
 #we define a color scheme dictionary containg name and color code as key value pair
 clrschms = {
@@ -51,11 +52,12 @@ root.config(menu=menubar)
 fileMenu = Menu(menubar,tearoff=0)
 
 #add menu items
-fileMenu.add_command(label="New...", accelerator='Ctrl + N', compound=LEFT, image=newicon, command=newFilecallback)
+filename = [""]
+fileMenu.add_command(label="New...", accelerator='Ctrl + N', compound=LEFT, image=newicon, command=lambda: newFilecallback(root,textPad,filename))
 fileMenu.add_separator()
-fileMenu.add_command(label="Open...", accelerator='Ctrl + O', compound=LEFT, image=openicon, command=openFilecallback)
-fileMenu.add_command(label="Save", accelerator='Ctrl + S', compound=LEFT, image=saveicon, command=saveFilecallback)
-
+fileMenu.add_command(label="Open...", accelerator='Ctrl + O', compound=LEFT, image=openicon, command=lambda: openFilecallback(root,textPad,filename))
+fileMenu.add_command(label="Save", accelerator='Ctrl + S', compound=LEFT, image=saveicon, command=lambda: saveFilecallback(root,textPad,filename))
+fileMenu.add_command(label="Save As ...", accelerator='Ctrl + Alt + S', compound=LEFT, image=saveicon, command=lambda: saveAsFilecallback(root,textPad,filename))
 
 #add the menu to the menu bar
 menubar.add_cascade(label='File',menu=fileMenu)
@@ -64,13 +66,14 @@ menubar.add_cascade(label='File',menu=fileMenu)
 editMenu = Menu(menubar,tearoff=0)
 
 #add menu items
-editMenu.add_command(label="Undo", accelerator='Ctrl + Z', compound=LEFT, image=undoicon, command=undocallback)
-editMenu.add_command(label="Redo", accelerator='Ctrl + Y', compound=LEFT, image=redoicon, command=redocallback)
+editMenu.add_command(label="Undo", accelerator='Ctrl + Z', compound=LEFT, image=undoicon, command=lambda: undocallback(textPad))
+editMenu.add_command(label="Redo", accelerator='Ctrl + Y', compound=LEFT, image=redoicon, command=lambda: redocallback(textPad))
 editMenu.add_separator()
-editMenu.add_command(label="Cut", accelerator='Ctrl + X', compound=LEFT, image=cuticon, command=cutcallback)
-editMenu.add_command(label="Copy", accelerator='Ctrl + C', compound=LEFT, image=copyicon, command=copycallback)
-editMenu.add_command(label="Find All", accelerator='Ctrl + F', compound=LEFT, image="", command=findAllcallback)
-editMenu.add_command(label="Select All", accelerator='Ctrl + A', compound=LEFT, image="", command=selectAllcallback)
+editMenu.add_command(label="Cut", accelerator='Ctrl + X', compound=LEFT, image=cuticon, command=lambda: cutcallback(textPad))
+editMenu.add_command(label="Copy", accelerator='Ctrl + C', compound=LEFT, image=copyicon, command=lambda: copycallback(textPad))
+editMenu.add_command(label="Paste", accelerator='Ctrl + V', compound=LEFT, image=pasteicon, command=lambda: pastecallback(textPad))
+editMenu.add_command(label="Find", accelerator='Ctrl + F', compound=LEFT, image=findicon, command=lambda: findcallback(root,textPad))
+editMenu.add_command(label="Select All", accelerator='Ctrl + A', compound=LEFT, image="", command=lambda: selectAllcallback(textPad))
 
 #add the  menu to the menu bar
 menubar.add_cascade(label='Edit',menu=editMenu)
@@ -125,7 +128,7 @@ lnlabel.pack(side=LEFT, anchor='nw', fill=Y)
 #************************************************************************
 #CREATE CENTRAL TEXT AREA SECTION
 #************************************************************************
-textPad = Text(root)
+textPad = Text(root,undo=True)
 textPad.pack(expand=YES, fill=BOTH)
 
 #************************************************************************
