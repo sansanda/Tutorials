@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter import messagebox
 import os
+
+
 
 #***************************
 #File menu callbacks
@@ -25,7 +28,7 @@ def openFilecallback(root,textPad,filename):
         textPad.insert(1.0, fh.read())
         fh.close()
 
-def saveFilecallback(root,textPad,filename):
+def savecallback(root,textPad,filename):
     try:
         f = open(filename[0], 'w')
         letter = textPad.get(1.0, 'end')
@@ -47,6 +50,9 @@ def saveAsFilecallback(root,textPad,filename):
     except:
         pass
 
+def exitEditorcallback(root):
+    if messagebox.askokcancel("Quit", "Do you really want to quit?"):
+        root.destroy()
 
 #***************************
 #Edit menu callbacks
@@ -135,7 +141,8 @@ def themescallback():
 #About menu callbacks
 #***************************
 def helpcallback():
-    print('help callback')
+    messagebox.showinfo("Help","For help refer to book:\n Tkinter GUI Application\n Development Hotshot ", icon='question')
 
 def aboutcallback():
-    print('about callback')
+    messagebox.showinfo("About","Tkinter GUI Application\n Development Hotshot",icon='info')
+

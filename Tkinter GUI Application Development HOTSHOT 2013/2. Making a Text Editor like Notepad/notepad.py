@@ -5,6 +5,7 @@ from menuCommands.menuCommands import *
 
 root = Tk()
 root.geometry('350x350')
+root.protocol('WM_DELETE_WINDOW', lambda: exitEditorcallback(root)) # override close
 
 #defining icons for compund menu demonstration
 newicon = PhotoImage(file='icons/new_file.gif')
@@ -15,7 +16,8 @@ copyicon = PhotoImage(file='icons/Copy.gif')
 pasteicon = PhotoImage(file='icons/Paste.gif')
 undoicon = PhotoImage(file='icons/Undo.gif')
 redoicon = PhotoImage(file='icons/Redo.gif')
-findicon = PhotoImage(file='icons/onfind.gif')
+findicon = PhotoImage(file='icons/find.gif')
+
 
 
 #************************************************************************
@@ -56,8 +58,10 @@ filename = [""]
 fileMenu.add_command(label="New...", accelerator='Ctrl + N', compound=LEFT, image=newicon, command=lambda: newFilecallback(root,textPad,filename))
 fileMenu.add_separator()
 fileMenu.add_command(label="Open...", accelerator='Ctrl + O', compound=LEFT, image=openicon, command=lambda: openFilecallback(root,textPad,filename))
-fileMenu.add_command(label="Save", accelerator='Ctrl + S', compound=LEFT, image=saveicon, command=lambda: saveFilecallback(root,textPad,filename))
+fileMenu.add_command(label="Save", accelerator='Ctrl + S', compound=LEFT, image=saveicon, command=lambda: savecallback(root,textPad,filename))
 fileMenu.add_command(label="Save As ...", accelerator='Ctrl + Alt + S', compound=LEFT, image=saveicon, command=lambda: saveAsFilecallback(root,textPad,filename))
+fileMenu.add_separator()
+fileMenu.add_command(label="Exit", accelerator='Alt + F4', compound=LEFT, image=None, command=lambda: exitEditorcallback(root))
 
 #add the menu to the menu bar
 menubar.add_cascade(label='File',menu=fileMenu)
@@ -139,6 +143,23 @@ textPad.configure(yscrollcommand=scroll.set)
 scroll.config(command=textPad.yview)
 scroll.pack(side=RIGHT, fill=Y)
 
+#************************************************************************
+#CREATE THE ICON TOOLBAR
+#************************************************************************
+shortcutbar = Frame(root,  height=25, bg='light sea green')
+#creating icon toolbar
+icons = ['newFile', 'openFile', 'save', 'cut', 'copy', 'paste', 'undo', 'redo', 'find', 'about']
+
+locals = {'root': root,'textPad':textPad,'filename':filename}
+
+for i, icon in enumerate(icons):
+    iconPath = 'icons/'+icon+'.gif'
+    tbicon = PhotoImage(file=iconPath)
+    cmd = eval(icon+'callback(root,textPad,filename)',locals())
+    toolbar = Button(shortcutbar, image=tbicon, command=cmd)
+    toolbar.image = tbicon
+    toolbar.pack(side=LEFT)
+shortcutbar.pack(expand=NO, fill=X)
 
 root.mainloop()
 
