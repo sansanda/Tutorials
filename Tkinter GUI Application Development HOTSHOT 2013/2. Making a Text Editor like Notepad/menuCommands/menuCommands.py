@@ -50,7 +50,7 @@ def saveAsFilecallback(root,textPad,filename):
     except:
         pass
 
-def exitEditorcallback(root):
+def exitEditorcallback(root,textPad,filename):
     if messagebox.askokcancel("Quit", "Do you really want to quit?"):
         root.destroy()
 
@@ -58,27 +58,27 @@ def exitEditorcallback(root):
 #Edit menu callbacks
 #***************************
 
-def undocallback(textPad):
+def undocallback(root,textPad,filename):
     textPad.event_generate("<<Undo>>")
 
-def redocallback(textPad):
+def redocallback(root,textPad,filename):
     textPad.event_generate("<<Redo>>")
 
 
-def cutcallback(textPad):
+def cutcallback(root,textPad,filename):
     textPad.event_generate("<<Cut>>")
 
-def pastecallback(textPad):
+def pastecallback(root,textPad,filename):
     textPad.event_generate("<<Paste>>")
 
-def copycallback(textPad):
+def copycallback(root,textPad,filename):
     textPad.event_generate("<<Copy>>")
 
 #********************************************************
 #FIND RELATED FUNCTIONS
 #********************************************************
 
-def findcallback(root,textPad):
+def findcallback(root,textPad,filename):
 
     def search_for(needle, cssnstv, textPad, t2, e):
         textPad.tag_remove('match', '1.0', END)
@@ -119,30 +119,30 @@ def findcallback(root,textPad):
 
 
 
-def selectAllcallback(textPad):
+def selectAllcallback(root,textPad,filename):
     textPad.tag_add('sel','0.0','end')
 
 #***************************
 #View menu callbacks
 #***************************
-def showLineNumbercallback():
+def showLineNumbercallback(root,textPad,filename):
     print('show line number callback')
 
-def showInfoBaratBottomcallback():
+def showInfoBaratBottomcallback(root,textPad,filename):
     print('show inf bar at bottom callback')
 
-def highlightCurrentLinecallback():
+def highlightCurrentLinecallback(root,textPad,filename):
     print('highlight current line callback')
 
-def themescallback():
+def themescallback(root,textPad,filename):
     print('themes callback')
 
 #***************************
 #About menu callbacks
 #***************************
-def helpcallback():
+def helpcallback(root,textPad,filename):
     messagebox.showinfo("Help","For help refer to book:\n Tkinter GUI Application\n Development Hotshot ", icon='question')
 
-def aboutcallback():
+def aboutcallback(root,textPad,filename):
     messagebox.showinfo("About","Tkinter GUI Application\n Development Hotshot",icon='info')
 

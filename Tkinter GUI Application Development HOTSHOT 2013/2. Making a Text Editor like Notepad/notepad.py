@@ -2,10 +2,11 @@ from tkinter import *
 from menuCommands.menuCommands import *
 
 
+textPad = None
 
 root = Tk()
 root.geometry('350x350')
-root.protocol('WM_DELETE_WINDOW', lambda: exitEditorcallback(root)) # override close
+root.protocol('WM_DELETE_WINDOW', lambda: exitEditorcallback(root,textPad,filename)) # override close
 
 #defining icons for compund menu demonstration
 newicon = PhotoImage(file='icons/new_file.gif')
@@ -18,6 +19,24 @@ undoicon = PhotoImage(file='icons/Undo.gif')
 redoicon = PhotoImage(file='icons/Redo.gif')
 findicon = PhotoImage(file='icons/find.gif')
 
+#************************************************************************
+#FUNCTIONS
+#************************************************************************
+
+#************************************************************************
+#FUNCTION FOR CREATING THE ICON TOOLBAR
+#************************************************************************
+def createIconToolbar(root,textPad,filename):
+    shortcutbar = Frame(root,  height=25, bg='light sea green')
+    #creating icon toolbar
+    icons = ['newFile', 'openFile', 'save', 'cut', 'copy', 'paste', 'undo', 'redo', 'find', 'about']
+
+    tbicon = PhotoImage(file='icons/'+icons[0]+'.gif')
+    newFileButton = Button(shortcutbar, image=tbicon, command=lambda: newFilecallback(root,textPad,filename))
+    newFileButton.image = tbicon
+    newFileButton.pack(side=LEFT)
+
+    shortcutbar.pack(expand=NO, fill=X)
 
 
 #************************************************************************
@@ -61,7 +80,7 @@ fileMenu.add_command(label="Open...", accelerator='Ctrl + O', compound=LEFT, ima
 fileMenu.add_command(label="Save", accelerator='Ctrl + S', compound=LEFT, image=saveicon, command=lambda: savecallback(root,textPad,filename))
 fileMenu.add_command(label="Save As ...", accelerator='Ctrl + Alt + S', compound=LEFT, image=saveicon, command=lambda: saveAsFilecallback(root,textPad,filename))
 fileMenu.add_separator()
-fileMenu.add_command(label="Exit", accelerator='Alt + F4', compound=LEFT, image=None, command=lambda: exitEditorcallback(root))
+fileMenu.add_command(label="Exit", accelerator='Alt + F4', compound=LEFT, image=None, command=lambda: exitEditorcallback(root,textPad,filename))
 
 #add the menu to the menu bar
 menubar.add_cascade(label='File',menu=fileMenu)
@@ -70,14 +89,14 @@ menubar.add_cascade(label='File',menu=fileMenu)
 editMenu = Menu(menubar,tearoff=0)
 
 #add menu items
-editMenu.add_command(label="Undo", accelerator='Ctrl + Z', compound=LEFT, image=undoicon, command=lambda: undocallback(textPad))
-editMenu.add_command(label="Redo", accelerator='Ctrl + Y', compound=LEFT, image=redoicon, command=lambda: redocallback(textPad))
+editMenu.add_command(label="Undo", accelerator='Ctrl + Z', compound=LEFT, image=undoicon, command=lambda: undocallback(root,textPad,filename))
+editMenu.add_command(label="Redo", accelerator='Ctrl + Y', compound=LEFT, image=redoicon, command=lambda: redocallback(root,textPad,filename))
 editMenu.add_separator()
-editMenu.add_command(label="Cut", accelerator='Ctrl + X', compound=LEFT, image=cuticon, command=lambda: cutcallback(textPad))
-editMenu.add_command(label="Copy", accelerator='Ctrl + C', compound=LEFT, image=copyicon, command=lambda: copycallback(textPad))
-editMenu.add_command(label="Paste", accelerator='Ctrl + V', compound=LEFT, image=pasteicon, command=lambda: pastecallback(textPad))
-editMenu.add_command(label="Find", accelerator='Ctrl + F', compound=LEFT, image=findicon, command=lambda: findcallback(root,textPad))
-editMenu.add_command(label="Select All", accelerator='Ctrl + A', compound=LEFT, image="", command=lambda: selectAllcallback(textPad))
+editMenu.add_command(label="Cut", accelerator='Ctrl + X', compound=LEFT, image=cuticon, command=lambda: cutcallback(root,textPad,filename))
+editMenu.add_command(label="Copy", accelerator='Ctrl + C', compound=LEFT, image=copyicon, command=lambda: copycallback(root,textPad,filename))
+editMenu.add_command(label="Paste", accelerator='Ctrl + V', compound=LEFT, image=pasteicon, command=lambda: pastecallback(root,textPad,filename))
+editMenu.add_command(label="Find", accelerator='Ctrl + F', compound=LEFT, image=findicon, command=lambda: findcallback(root,root,textPad,filename))
+editMenu.add_command(label="Select All", accelerator='Ctrl + A', compound=LEFT, image="", command=lambda: selectAllcallback(root,textPad,filename))
 
 #add the  menu to the menu bar
 menubar.add_cascade(label='Edit',menu=editMenu)
@@ -109,9 +128,9 @@ menubar.add_cascade(label='View',menu=viewMenu)
 aboutMenu = Menu(menubar,tearoff=0)
 
 #add menu items
-aboutMenu.add_command(label="About", accelerator='', compound=LEFT, image=None, command=aboutcallback)
+aboutMenu.add_command(label="About", accelerator='', compound=LEFT, image=None, command=lambda: aboutcallback(root,textPad,filename))
 aboutMenu.add_separator()
-aboutMenu.add_command(label="Help", accelerator='', compound=LEFT, image=None, command=helpcallback)
+aboutMenu.add_command(label="Help", accelerator='', compound=LEFT, image=None, command=lambda: helpcallback(root,textPad,filename))
 
 #add the menu to the menu bar
 menubar.add_cascade(label='About',menu=aboutMenu)
@@ -121,6 +140,13 @@ menubar.add_cascade(label='About',menu=aboutMenu)
 #************************************************************************
 shortcutbar = Frame(root,  height=25, bg='light sea green')
 shortcutbar.pack(expand=NO, fill=X)
+
+
+#************************************************************************
+#CREATE THE ICON TOOLBAR
+#************************************************************************
+createIconToolbar(root,textPad,filename)
+
 
 #************************************************************************
 #CREATE LATERAL LINE (FOR LINE NUMERING) SECTION
@@ -143,23 +169,7 @@ textPad.configure(yscrollcommand=scroll.set)
 scroll.config(command=textPad.yview)
 scroll.pack(side=RIGHT, fill=Y)
 
-#************************************************************************
-#CREATE THE ICON TOOLBAR
-#************************************************************************
-shortcutbar = Frame(root,  height=25, bg='light sea green')
-#creating icon toolbar
-icons = ['newFile', 'openFile', 'save', 'cut', 'copy', 'paste', 'undo', 'redo', 'find', 'about']
 
-locals = {'root': root,'textPad':textPad,'filename':filename}
-
-for i, icon in enumerate(icons):
-    iconPath = 'icons/'+icon+'.gif'
-    tbicon = PhotoImage(file=iconPath)
-    cmd = eval(icon+'callback(root,textPad,filename)',locals())
-    toolbar = Button(shortcutbar, image=tbicon, command=cmd)
-    toolbar.image = tbicon
-    toolbar.pack(side=LEFT)
-shortcutbar.pack(expand=NO, fill=X)
 
 root.mainloop()
 
