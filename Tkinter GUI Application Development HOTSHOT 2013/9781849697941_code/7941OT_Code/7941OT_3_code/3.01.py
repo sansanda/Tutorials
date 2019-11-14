@@ -8,7 +8,7 @@ Creating OOP Based GUI structure
 @Tkinter GUI Application Development Hotshot
 """ 
 
-from Tkinter import *
+from tkinter import *
 
 class DrumMachine():
 

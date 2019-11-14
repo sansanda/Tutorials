@@ -8,7 +8,7 @@ Creating the Right Drum Pad or the Pattern Editor
 @Tkinter GUI Application Development Hotshot
 """ 
 
-from Tkinter import *
+from tkinter import *
 
 
 #constants

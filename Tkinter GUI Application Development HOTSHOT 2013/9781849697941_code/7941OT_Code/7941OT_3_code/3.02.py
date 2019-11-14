@@ -8,11 +8,14 @@ Setting up Widgets
 @Tkinter GUI Application Development Hotshot
 """ 
 
-from Tkinter import *
+from tkinter import *
 
 
 #constants
+from sympy import Circle
+
 MAX_DRUM_NUM = 5
+MAX_BEAT_PATTERN_NUM = 40
 
 class DrumMachine():
 
@@ -45,10 +48,11 @@ class DrumMachine():
     def create_right_pad(self):
         right_frame = Frame(self.root)
         right_frame.grid(row=10, column=6,sticky=W+E+N+S, padx=15, pady=2)
-        self.button = [[0 for x in range(4)] for x in range(MAX_DRUM_NUM)]
+        self.button = [[0 for x in range(MAX_BEAT_PATTERN_NUM)] for x in range(MAX_DRUM_NUM)]
         for i in range(MAX_DRUM_NUM):
-            for j in range(4):
+            for j in range(MAX_BEAT_PATTERN_NUM):
                 self.button[i][j] = Button(right_frame, bg='grey55')
+                self.button[i][j].config(width=1)
                 self.button[i][j].grid(row=i, column=j)
 
     def create_top_bar(self):
@@ -62,8 +66,6 @@ class DrumMachine():
         self.units.set(4)
         self.units_widget = Spinbox(topbar_frame, from_=1, to=8, width=5, textvariable=self.units)
         self.units_widget.grid(row=0, column=5)
-        
-        
 
         Label(topbar_frame, text='BPUs:').grid(row=0, column=6)
         self.bpu = IntVar()
