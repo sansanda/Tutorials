@@ -8,9 +8,10 @@ Loading Drum Samples
 @Tkinter GUI Application Development Hotshot
 """ 
 
-from Tkinter import *
-import tkFileDialog
-import tkMessageBox
+from tkinter import *
+from tkinter import filedialog
+from tkinter import messagebox
+
 import os
 
 
@@ -39,7 +40,7 @@ class DrumMachine():
                 self.widget_drum_name[drum_no].delete(0, END)
                 self.widget_drum_name[drum_no].insert(0, drum_name)
             except:
-                tkMessageBox.showerror('Invalid', "Error loading drum samples")
+                messagebox.showerror('Invalid', "Error loading drum samples")
         return callback
 
 
