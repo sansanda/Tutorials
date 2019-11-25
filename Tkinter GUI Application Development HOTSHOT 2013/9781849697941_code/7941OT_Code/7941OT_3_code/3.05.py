@@ -4,31 +4,28 @@ Code illustration: 3.05
 Playing Sound Files with pymedia module
 
 @Tkinter GUI Application Development Hotshot
-""" 
+"""
 
-from Tkinter import *
-import tkFileDialog
-import tkMessageBox
+from tkinter import *
+from tkinter import filedialog
+from tkinter import messagebox
 import os
 
 #modules for playing sounds
 import time
 import wave
-import pymedia.audio.sound as sound
-
-
 
 #constants
 MAX_DRUM_NUM = 5
 
 class DrumMachine():
-    
-    
+
+
     def __init__(self):
         self.widget_drum_name = []
         self.widget_drum_file_name = [0]*MAX_DRUM_NUM
         self.current_drum_no = 0
-        
+
 
     def play(self):
           for i in range(len(self.button[0])):
@@ -59,10 +56,10 @@ class DrumMachine():
 
 
     def drum_load(self, drum_no):
-        def callback(): 
+        def callback():
             self.current_drum_no = drum_no
             try:
-                file_name = tkFileDialog.askopenfilename(defaultextension=".wav",filetypes=[("Wave Files","*.wav"),("OGG Files","*.ogg")])
+                file_name = filedialog.askopenfilename(defaultextension=".wav",filetypes=[("Wave Files","*.wav"),("OGG Files","*.ogg")])
                 if not file_name: return
                 try:
                     del self.widget_drum_file_name[drum_no]
@@ -72,18 +69,18 @@ class DrumMachine():
                 self.widget_drum_name[drum_no].delete(0, END)
                 self.widget_drum_name[drum_no].insert(0, drum_name)
             except:
-                tkMessageBox.showerror('Invalid', "Error loading drum samples")
-            
+                messagebox.showerror('Invalid', "Error loading drum samples")
+
         return callback
 
 
     def button_clicked(self,i,j,bpu):
-            def callback():                 
+            def callback():
                 btn = self.button[i][j]
                 color = 'grey55' if (j/bpu)%2 else 'khaki'
                 new_color = 'green' if btn.cget('bg') != 'green' else color
                 btn.config(bg=new_color)
-            return callback  
+            return callback
 
     def create_play_bar(self):
         playbar_frame = Frame(self.root, height=15)
@@ -96,8 +93,8 @@ class DrumMachine():
         loop = BooleanVar()
         loopbutton = Checkbutton(playbar_frame, text='Loop', variable=loop)
         loopbutton.grid(row=ln, column=16,padx=1)
-       
-        
+
+
     def create_left_pad(self):
         '''creating actual pattern editor pad'''
         left_frame = Frame(self.root)
@@ -110,7 +107,7 @@ class DrumMachine():
             self.drum_entry = Entry(left_frame)
             self.drum_entry.grid(row=i, column=4, padx=7,pady=2)
             self.widget_drum_name.append(self.drum_entry)
-            
+
 
     def create_right_pad(self):
         bpu = self.bpu.get()
@@ -136,8 +133,8 @@ class DrumMachine():
         self.units.set(4)
         self.units_widget = Spinbox(topbar_frame, from_=1, to=8, width=5, textvariable=self.units,command= self.create_right_pad)
         self.units_widget.grid(row=0, column=5)
-        
- 
+
+
         Label(topbar_frame, text='BPUs:').grid(row=0, column=6)
         self.bpu = IntVar()
         self.bpu.set(4)
@@ -145,17 +142,17 @@ class DrumMachine():
         self.bpu_widget.grid(row=0, column=7)
 
         self.create_right_pad()
-        
-        
+
+
     def app(self):
         self.root = Tk()
         self.root.title('Drum Beast')
         self.create_top_bar()
         self.create_left_pad()
-        
+
         self.create_play_bar()
         self.root.mainloop()
-        
+
 # ======================================================================
 if __name__ == '__main__':
     dm = DrumMachine()
