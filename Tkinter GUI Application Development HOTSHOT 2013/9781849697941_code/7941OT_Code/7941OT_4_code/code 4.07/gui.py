@@ -131,7 +131,9 @@ class GUI():
             x,y = self.chessboard.num_notation(coord)
             if piece is not None:
                 filename = "../pieces_image/%s%s.png" % (piece.shortname.lower(),piece.color)
+                print(filename)
                 piecename = "%s%s%s" % (piece.shortname, x, y)
+                print(piecename)
                 if(filename not in self.images):
                     self.images[filename] = ImageTk.PhotoImage(file=filename)
                 self.canvas.create_image(0,0, image=self.images[filename], tags=(piecename, "occupied"), anchor="c")

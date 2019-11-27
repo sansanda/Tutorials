@@ -6,6 +6,7 @@ Code illustration: 4.01
 Tkinter GUI Application Development Hotshot
 """ 
 
+
 from Tkinter import *
 
 class GUI():
