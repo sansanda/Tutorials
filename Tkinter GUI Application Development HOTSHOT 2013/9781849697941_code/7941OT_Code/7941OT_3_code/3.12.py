@@ -6,9 +6,9 @@ Finalizing our Drum Machine
 @Tkinter GUI Application Development Hotshot
 """ 
 
-from Tkinter import *
-import tkFileDialog
-import tkMessageBox
+from tkinter import *
+from tkinter import filedialog
+from tkinter import messagebox
 import os
 
 #modules for playing sounds

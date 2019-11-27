@@ -15,6 +15,7 @@ import os
 import time
 import wave
 
+
 # constants
 MAX_DRUM_NUM = 5
 
