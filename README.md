@@ -1,4 +1,1 @@
-This is a repo for practicing t¡the learned things from the course:
-Tkinter GUI Application Development HOTSHOT
-By Bhaskar Chaudhary
-October 2013
+This is a repo for practicing the learned things from some courses:
