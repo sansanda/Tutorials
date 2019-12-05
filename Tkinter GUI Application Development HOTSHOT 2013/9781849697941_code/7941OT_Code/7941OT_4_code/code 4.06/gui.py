@@ -42,13 +42,30 @@ class GUI():
     def __init__(self, parent, chessboard):
         self.chessboard = chessboard
         self.parent = parent
+
+        self.menubar = Menu(parent)
+        self.filemenu = Menu(self.menubar,tearoff=0)
+        self.filemenu.add_command(label="New Game",command=self.new_game)
+        self.filemenu.add_cascade(label="File",menu=self.filemenu)
+        self.parent.config(menu=self.menubar)
+
+        self.btmfrm = Frame(parent, height=64)
+        self.info_label = Label(self.btmfrm, text="   White to Start the Game  ", fg=self.color2)
+        self.info_label.pack(side=RIGHT, padx=8, pady=5)
+        self.btmfrm.pack(fill="x", side=BOTTOM)
+
         canvas_width = self.columns * self.dim_square
         canvas_height = self.rows * self.dim_square
         self.canvas = Canvas(parent, width=canvas_width, height=canvas_height)
         self.canvas.pack(padx=8, pady=8)
-        self.draw_board()
+        self.draw_board() #Posiblemente sea innecesario
         self.canvas.bind("<Button-1>", self.square_clicked)
 
+    def new_game(self):
+        self.chessboard.show(chessboard.START_PATTERN)
+        self.draw_board()
+        self.draw_pieces()
+        self.info_label.config(text="White to Start the Game", fg='red')
 
 
     def square_clicked(self, event):

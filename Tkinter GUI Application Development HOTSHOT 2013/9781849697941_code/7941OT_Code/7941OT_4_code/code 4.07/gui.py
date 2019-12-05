@@ -36,8 +36,8 @@ class GUI():
         self.filemenu = Menu(self.menubar, tearoff=0 ) 
         self.filemenu.add_command(label="New Game", command=self.new_game )
         self.menubar.add_cascade(label="File", menu=self.filemenu)
-        self.parent.config(menu=self.menubar)   
-
+        self.parent.config(menu=self.menubar)
+        self.menubar.pack(fill="x", side=BOTTOM)
         #Adding Frame
         self.btmfrm = Frame(parent, height=64)
         self.info_label = Label(self.btmfrm, text="   White to Start the Game  ", fg=self.color2)

@@ -4,11 +4,10 @@ Code illustration: 3.12
 Finalizing our Drum Machine
 
 @Tkinter GUI Application Development Hotshot
-""" 
-
-from tkinter import *
-from tkinter import filedialog
-from tkinter import messagebox
+"""
+import tkFileDialog
+import tkMessageBox
+from Tkinter import *
 import os
 
 #modules for playing sounds

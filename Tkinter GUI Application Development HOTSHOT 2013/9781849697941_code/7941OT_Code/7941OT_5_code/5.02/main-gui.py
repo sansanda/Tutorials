@@ -142,9 +142,7 @@ class GUI:
         elif self.playbtn['text'] =='stop':
             self.playbtn.config(text ='play', image=self.playicon)
             self.player.pause()
-            
 
-            
     def identify_track_to_play(self, event=None):
         try:
             indx = int(self.listbox.curselection()[0])
